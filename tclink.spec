@@ -1,21 +1,17 @@
-%define lib_major 3
-%define lib_name_orig libtclink
-
-%define libname %mklibname tclink %lib_major
-%define libnamedev %{libname}-devel
-
-%define tclink_c_version 3.4
-%define tclink_version 3.4
+%define major 3
+%define libname %mklibname tclink %{major}
+%define develname %mklibname tclink -d
 
 Summary:	TrustCommerce payment
 Name:		tclink
-Version:	%{tclink_version}
-Release:	%mkrel 6
+Version:	3.4.4
+Release:	%mkrel 1
 Group:		System/Servers
 License:	LGPL
 URL:		http://www.trustcommerce.com/tclink.html
-Source0:	%{name}-%{tclink_c_version}-C.tar.bz2
+Source0:	http://www.trustcommerce.com/downloads/tclink-%{version}-C.tar.gz
 Patch0:		tclink-3.4-C-soname.diff
+Patch1:		tclink-correct_version.diff
 BuildRequires:	openssl-devel
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
@@ -37,45 +33,53 @@ Provides:	%{name} = %{version}-%{release}
 This package contains the library needed to run programs dynamically
 linked with tclink (Trust Commerce Payment Gateway).
 
-%package -n	%{libnamedev}
+%package -n	%{develname}
 Summary:	Headers for developping programs with TCLink
-Group:		Development/Other
-Requires:	%{libname} = %version-%release
-Provides:	%{lib_name_orig}-devel = %{version}-%{release}
+Group:		Development/C
+Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
+Provides:	%{mklibname tclink 3 -d} = %{version}-%{release}
+Obsoletes:	%{mklibname tclink 3 -d}
 
-%description -n	%{libnamedev}
+%description -n	%{develname}
 This package contains the header file you need to develop applications
 which will use TCLink (Trust Commerce Payment Gateway).
 
 %prep
 
-%setup -q -n %{name}-%{tclink_c_version}-C
+%setup -q -n %{name}-%{version}-C
 
 %patch0 -p0
-perl -pi -e "s|_MAJOR_|%{lib_major}|g" Makefile*
+perl -pi -e "s|_MAJOR_|%{major}|g" Makefile*
+
+%patch1 -p0
 
 # fix strange perms
-chmod 644 README doc/*
+chmod 644 LICENSE README doc/*
+
+# lib64 fix
+perl -pi -e "s|/lib\b|/%{_lib}|g" configure.in
 
 %build
+rm -f configure
+autoconf
 
 %configure2_5x \
     --with-ssl-dir=%{_prefix}
 
-%make CFLAGS="%{optflags} -fPIC"
+%make MYFLAGS="" CFLAGS="%{optflags} -fPIC"
 
 %install
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
 
-install -d %{buildroot}%{_libdir}/%{libname}
-install -d %{buildroot}%{_includedir}/%{libname}
+install -d %{buildroot}%{_libdir}
+install -d %{buildroot}%{_includedir}
 
-install -m0755 %{lib_name_orig}.so.%{lib_major} %{buildroot}%{_libdir}/
-ln -snf %{lib_name_orig}.so.%{lib_major} %{buildroot}%{_libdir}/%{lib_name_orig}.so
+install -m0755 lib%{name}.so.%{major} %{buildroot}%{_libdir}/
+ln -snf lib%{name}.so.%{major} %{buildroot}%{_libdir}/lib%{name}.so
 
-install -m0755 %{lib_name_orig}.a %{buildroot}%{_libdir}/%{libname}/
-install -m0644 tclink.h %{buildroot}%{_includedir}/%{libname}/
+install -m0644 lib%{name}.a %{buildroot}%{_libdir}/
+install -m0644 tclink.h %{buildroot}%{_includedir}/
 
 %clean
 [ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
@@ -86,14 +90,12 @@ install -m0644 tclink.h %{buildroot}%{_includedir}/%{libname}/
 
 %files -n %{libname}
 %defattr(-,root,root)
-%doc README
+%doc LICENSE README
 %{_libdir}/*.so.*
 
-%files -n %{libnamedev}
+%files -n %{develname}
 %defattr(-,root,root)
 %doc doc/TCDevGuide.txt doc/TCDevGuide.html
+%{_includedir}/*.h
 %{_libdir}/*.so
-%{_libdir}/%{libname}/*.a
-%{_includedir}/%{libname}/*.h
-
-
+%{_libdir}/*.a
