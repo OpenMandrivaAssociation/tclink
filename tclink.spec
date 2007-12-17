@@ -13,7 +13,6 @@ Source0:	http://www.trustcommerce.com/downloads/tclink-%{version}-C.tar.gz
 Patch0:		tclink-3.4-C-soname.diff
 Patch1:		tclink-correct_version.diff
 BuildRequires:	openssl-devel
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 TCLink is a thin client library to allow your e-commerce servers to
