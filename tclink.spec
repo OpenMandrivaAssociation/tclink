@@ -5,7 +5,7 @@
 Summary:	TrustCommerce payment
 Name:		tclink
 Version:	3.4.4
-Release:	%mkrel 2
+Release:	%mkrel 3
 Group:		System/Servers
 License:	LGPL
 URL:		http://www.trustcommerce.com/tclink.html
@@ -13,7 +13,7 @@ Source0:	http://www.trustcommerce.com/downloads/tclink-%{version}-C.tar.gz
 Patch0:		tclink-3.4-C-soname.diff
 Patch1:		tclink-correct_version.diff
 BuildRequires:	openssl-devel
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 TCLink is a thin client library to allow your e-commerce servers to
@@ -70,7 +70,7 @@ autoconf
 %make MYFLAGS="" CFLAGS="%{optflags} -fPIC"
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 install -d %{buildroot}%{_libdir}
 install -d %{buildroot}%{_includedir}
@@ -81,9 +81,6 @@ ln -snf lib%{name}.so.%{major} %{buildroot}%{_libdir}/lib%{name}.so
 install -m0644 lib%{name}.a %{buildroot}%{_libdir}/
 install -m0644 tclink.h %{buildroot}%{_includedir}/
 
-%clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
-
 %if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
 %endif
@@ -91,6 +88,9 @@ install -m0644 tclink.h %{buildroot}%{_includedir}/
 %if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
 %endif
+
+%clean
+rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
