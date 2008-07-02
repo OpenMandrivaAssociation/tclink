@@ -12,6 +12,7 @@ URL:		http://www.trustcommerce.com/tclink.html
 Source0:	http://www.trustcommerce.com/downloads/tclink-%{version}-C.tar.gz
 Patch0:		tclink-3.4-C-soname.diff
 Patch1:		tclink-correct_version.diff
+Patch2:		tclink-linkage_order_fix.diff
 BuildRequires:	openssl-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -53,6 +54,7 @@ which will use TCLink (Trust Commerce Payment Gateway).
 perl -pi -e "s|_MAJOR_|%{major}|g" Makefile*
 
 %patch1 -p0
+%patch2 -p0
 
 # fix strange perms
 chmod 644 LICENSE README doc/*
