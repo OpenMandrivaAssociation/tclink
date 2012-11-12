@@ -1,0 +1,22 @@
+--- Makefile.in	2003-09-06 02:17:26.000000000 +0200
++++ Makefile.in.oden	2004-05-22 14:35:52.699761093 +0200
+@@ -24,7 +24,7 @@
+ 
+ #### Make targets
+ 
+-all: $(BIN) $(BIN2) dynamic static
++all: shared static
+ 
+ tctest: Makefile $(OBJS)
+ 	$(CC) -o $(BIN) $(OBJS) $(LDFLAGS)
+@@ -32,8 +32,8 @@
+ tcexample: Makefile $(OBJS2)
+ 	$(CC) -o $(BIN2) $(OBJS2) $(LDFLAGS)
+ 
+-dynamic: Makefile tclink.o
+-	$(CC) -shared -o libtclink.so tclink.o $(LDFLAGS)
++shared: Makefile tclink.o
++	$(CC) $(LDFLAGS) -shared -Wl,-soname,libtclink.so._MAJOR_ -o libtclink.so._MAJOR_ tclink.o
+ 
+ static: Makefile tclink.o
+ 	$(AR) libtclink.a tclink.o

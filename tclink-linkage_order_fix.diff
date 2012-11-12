@@ -1,0 +1,11 @@
+--- Makefile.in	2008-07-02 08:17:01.000000000 -0400
++++ Makefile.in.oden	2008-07-02 08:17:50.000000000 -0400
+@@ -33,7 +33,7 @@
+ 	$(CC) -o $(BIN2) $(OBJS2) $(LDFLAGS)
+ 
+ shared: Makefile tclink.o
+-	$(CC) $(LDFLAGS) -shared -Wl,-soname,libtclink.so.3 -o libtclink.so.3 tclink.o
++	$(CC) -shared -Wl,-soname,libtclink.so.3 -o libtclink.so.3 tclink.o $(LDFLAGS)
+ 
+ static: Makefile tclink.o
+ 	$(AR) libtclink.a tclink.o
