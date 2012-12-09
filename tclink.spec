@@ -5,7 +5,7 @@
 Summary:	TrustCommerce payment
 Name:		tclink
 Version:	3.4.4
-Release:	%mkrel 9
+Release:	%mkrel 11
 Group:		System/Servers
 License:	LGPL
 URL:		http://www.trustcommerce.com/tclink.html
@@ -105,3 +105,76 @@ rm -rf %{buildroot}
 %{_includedir}/*.h
 %{_libdir}/*.so
 %{_libdir}/*.a
+
+
+%changelog
+* Fri May 06 2011 Oden Eriksson <oeriksson@mandriva.com> 3.4.4-9mdv2011.0
++ Revision: 670669
+- mass rebuild
+
+* Fri Dec 03 2010 Oden Eriksson <oeriksson@mandriva.com> 3.4.4-8mdv2011.0
++ Revision: 607984
+- rebuild
+
+* Fri Apr 09 2010 Funda Wang <fwang@mandriva.org> 3.4.4-7mdv2010.1
++ Revision: 533314
+- rebuild
+
+* Fri Feb 26 2010 Oden Eriksson <oeriksson@mandriva.com> 3.4.4-6mdv2010.1
++ Revision: 511644
+- rebuilt against openssl-0.9.8m
+
+* Thu Sep 03 2009 Christophe Fergeau <cfergeau@mandriva.com> 3.4.4-5mdv2010.0
++ Revision: 427286
+- rebuild
+
+* Mon Dec 22 2008 Oden Eriksson <oeriksson@mandriva.com> 3.4.4-4mdv2009.1
++ Revision: 317663
+- rebuild
+
+* Wed Jul 02 2008 Oden Eriksson <oeriksson@mandriva.com> 3.4.4-3mdv2009.0
++ Revision: 230684
+- added P2 to fix linkage
+- rebuild
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+    - kill re-definition of %%buildroot on Pixel's request
+
+  + Pixel <pixel@mandriva.com>
+    - do not call ldconfig in %%post/%%postun, it is now handled by filetriggers
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+* Sun Oct 28 2007 Oden Eriksson <oeriksson@mandriva.com> 3.4.4-1mdv2008.1
++ Revision: 102764
+- 3.4.4
+
+
+* Tue Oct 31 2006 Oden Eriksson <oeriksson@mandriva.com> 3.4-6mdv2007.0
++ Revision: 74497
+- bunzip patches
+- use the %%mkrel macro
+- Import tclink
+
+* Sun Nov 13 2005 Oden Eriksson <oeriksson@mandriva.com> 3.4-5mdk
+- rebuilt against openssl-0.9.8a
+
+* Wed Nov 24 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 3.4-4mdk
+- nuke redundant provides
+
+* Mon May 24 2004 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 3.4-3mdk
+- fix buildrequires
+
+* Sun May 23 2004 Oden Eriksson <oeriksson@mandrakesoft.com> 3.4-2mdk
+- broke out the php extension into its own package
+- P0, fix soname (where did it go?)
+- update url
+- misc spec file fixes
+
+* Wed Nov 05 2003 Oden Eriksson <oden.eriksson@kvikkjokk.net> 3.4-1mdk
+- built for php 4.3.4
+- TCLink-C 3.4
+- TCLink-php 3.4
+
