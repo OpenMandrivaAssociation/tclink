@@ -5,7 +5,7 @@
 Summary:	TrustCommerce payment
 Name:		tclink
 Version:	3.4.4
-Release:	18
+Release:	19
 Group:		System/Servers
 License:	LGPL
 URL:		http://www.trustcommerce.com/tclink.html
