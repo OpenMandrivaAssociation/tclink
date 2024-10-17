@@ -8,7 +8,7 @@ Version:	3.4.4
 Release:	20
 Group:		System/Servers
 License:	LGPL
-URL:		http://www.trustcommerce.com/tclink.html
+URL:		https://www.trustcommerce.com/tclink.html
 Source0:	http://www.trustcommerce.com/downloads/tclink-%{version}-C.tar.gz
 Patch0:		tclink-3.4-C-soname.diff
 Patch1:		tclink-correct_version.diff
